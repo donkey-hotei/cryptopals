@@ -51,13 +51,20 @@ func LenVec(u []float64) float64 {
 func HammingDistance(a, b []byte) int {
     distance := 0
 
-    for i, _ := range a {
-        if a[i] != b[i] {
-            distance += 1
-            println(distance)
-        }
+    if (len(a) != len(b)) {
+       println("Buffers must be the same length.");
     }
 
+    for i := 0; i < len(a); i++ {
+        b1 := a[i]
+        b2 := b[i]
+        for j := 0; j < 8; j++ {
+            mask := byte(1 << uint(j))
+            if ((b1 & mask) != (b2 & mask)) {
+                distance++
+            }
+        }
+    }
     return distance
 }
 
